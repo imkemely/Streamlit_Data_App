@@ -14,6 +14,10 @@ st.header("Intership Ready Software Development")
 st.subheader("Prof. Gregory Reis")
 st.divider()
 
+
+with st.sidebar:
+    show_raw_data = st.checkbox("Show Raw Data Table", value=True)
+
 df = pd.read_csv("biscayneBay_waterquality.csv")
 
 tab1, tab2, tab3, tab4 = st.tabs(
@@ -24,30 +28,33 @@ tab1, tab2, tab3, tab4 = st.tabs(
 )
 
 with tab1:
-    st.info("Working on this")
-    st.dataframe(df)
-    st.caption("Raw Data")
-    st.divider()
+    if show_raw_data:
+        st.dataframe(df)
+        st.caption("Raw Data")
+        st.divider()
     st.dataframe(df.describe())
     st.caption("Descriptive Statistics")
 
 with tab2:
     fig1 = px.line(df,
                    x="Time",
-                   y="Temperature (c)",)
+                   y="Temperature (c)",
+                   title="Water Temperature Over Time")
     st.plotly_chart(fig1)
 
     fig2= px.scatter(df,
                      x="ODO mg/L",
                      y="Temperature (c)",
-                     color="pH")
+                     color="pH",
+                     title="Temperature vs Dissolved Oxygen (colored by pH")
     st.plotly_chart(fig2)
 
 with tab3:
     fig3 =px.scatter_3d(df,
                         x="Longitude",
                         y="Latitude",
-                        z="Total Water Column (m)")
+                        z="Total Water Column (m)",
+                        title="3D Map of Sampling Locations")
     fig3.update_scenes(zaxis_autorange="reversed")
     st.plotly_chart(fig3)
 
