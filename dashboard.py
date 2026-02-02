@@ -55,6 +55,13 @@ with tab4:
     st.header("NASA's Astronomy Picture of the Day")
     url = "https://api.nasa.gov/planetary/apod?api_key="
     response = apod_generator(url, os.getenv("NASA_API_KEY"))
+    if response:
+        st.image(response["url"])
+        st.write(f"**{response['title']}**")
+        st.write(f"Date: {response['date']}")
+        st.write(response["explanation"])
+    else:
+        st.error("Could not load NASA APOD. Check your API key.")
 
 
 
